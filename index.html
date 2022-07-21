@@ -7,14 +7,26 @@
 </head>
 <body>
 <h1>Drivethrucards MtG PDF Generator</h1>
+<p>
+    You can use this tool to generate a PDF you can use at drivethrucards.com.<br>
+    Some things of note:
+</p>
+<ul>
+    <li>
+        The final PDF is gonna be more or less the size of all your uploaded images combined. For best results, I recommend downscaling all your images and adding a slight JPEG compression (quality 95) to reduce unneeded file size. A good tool to do this with is IrfanView.
+    </li>
+    <li>
+        This tool uses jspdf to generate the PDF file. There is no way to export the PDF in the preferred PDF/X-1a format that drivethrucards wants, nor to export in the CYMK color profile preferred by the page. For best results, open the generated PDF in the PDF editor of your choice and re-export it with the correct parameters.
+    </li>
+</ul>
 <form id="cardForm">
     <label>
-        Card Type Preset
+        card type preset
         <select name="card_type" id="card_type_select">
             <option value="19">12" x 18" Small Poster(s) on Deluxe Paper</option>
             <option value="30">Embossed Tarot Card(s)</option>
             <option value="26">Embossed US Poker Card(s)</option>
-            <option value="33">Premium 11" x 8.5" Landscape GM Screen Insert(s)</option>
+            <option value="33">Premium 11" x 8.5" Landscape GM Screen Insert(s)  (your images need to be rotated into portrait)</option>
             <option value="4">Premium 6" x 6" Tile Card(s)</option>
             <option value="7">Premium 8" x 10" Page(s)</option>
             <option value="8">Premium 8.5" x 11" Page(s)</option>
@@ -28,47 +40,53 @@
     </label>
     <br>
     <label>
-        Measurement Units
-        <select id="unit">
-            <option value="inch" selected>Inch</option>
-            <option value="mm">Millimeter</option>
-        </select>
-    </label>
-    <br>
-    <label>
-        Card Width
+        total width in inches
         <input type="number" id="width" step="0.001" value="2.73">
     </label>
     <br>
     <label>
-        Card Height
+        total height in inches
         <input type="number" id="height" step="0.001" value="3.71">
     </label>
     <br>
     <label>
-        Bleeding area
+        bleeding area in inches
         <input type="number" id="bleeding" step="0.001" value="0.125">
     </label>
     <br>
     <label>
-        Background Color (which is typically your bleeding area)
+        background color (which is typically your bleeding area)
         <input type="color" id="color" value="#000000">
     </label>
     <br>
     <label>
-        Card Back
+        card back
         <input required type="file" id="back">
     </label>
     <br>
     <label>
-        Card Fronts
+        card fronts
         <input required type="file" multiple id="fronts">
     </label>
     <br>
+    <label>
+        compress PDF?
+        <input type="checkbox" id="compress">
+    </label>
+    <br>
+    <label>
+        image compression level:
+        <select id="img_compress">
+            <option value="NONE">none</option>
+            <option value="FAST">fast</option>
+            <option value="MEDIUM">medium</option>
+            <option value="SLOW">slow</option>
+        </select>
+    </label>
     <input type="submit" value="Generate">
 </form>
 <label>
-    Progress:
+    progress:
     <progress id="progress" value="0"></progress>
 </label>
 <script src="jspdf.umd.min.js"></script>
