@@ -4,28 +4,7 @@
     <meta charset="utf-8">
     <title>Drivethrucards MtG PDF Generator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        th, td {
-            padding: 4px;
-        }
-        th:not(:last-child), td:not(:last-child) {
-            border-right: 1px solid gray;
-        }
-        tr:nth-child(2n+1) {
-            background-color: antiquewhite;
-        }
-        table {
-            text-align: left;
-            border-spacing: 0;
-            border: 1px solid gray;
-            width: 100%;
-        }
-        body {
-            max-width: 1200px;
-            margin: auto;
-            font-family: sans-serif ;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <h1>Drivethrucards MtG PDF Generator</h1>
@@ -116,7 +95,10 @@
             </th>
             <td>
                 <input required type="file" id="back">
-                <button id="updateCardBacks" type="button">update card backs</button>
+                <button id="updateCardBacks" type="button">update card backs</button><br>
+                <div class="img-card-preview-container">
+                    <img id="cardBack" class="img-card-preview">
+                </div>
             </td>
         </tr>
         <tr>
@@ -191,25 +173,6 @@
     </tr>
     </thead>
     <tbody id="cardsTable">
-    <template id="templateCardRow">
-        <tr>
-            <td>
-                <input type="file" class="front img-preview">
-                <img class="front-preview">
-            </td>
-            <td>
-                <input type="file" class="back img-preview" data-custom="0">
-                <img class="back-preview">
-                <button type="button" class="back-reset">default</button>
-            </td>
-            <td>
-                <input type="number" class="copies">
-            </td>
-            <td>
-                <button type="button" class="delete-card" onclick="this.closest('tr').remove();">delete</button>
-            </td>
-        </tr>
-    </template>
     </tbody>
 </table>
 <script src="jspdf.umd.min.js"></script>
@@ -219,7 +182,7 @@
 <h2>Roadmap</h2>
 <ul>
     <li>
-        complete extended card management: <progress max="10" value="1"></progress>
+        complete extended card management: <progress max="10" value="4"></progress>
     </li>
 </ul>
 <span style="cursor:pointer;" id="toggleImprint">toggle imprint (german)</span>
@@ -405,5 +368,30 @@
         nicht von Dritten mitgelesen werden.</p>
     <p>Quelle: <a href="https://www.e-recht24.de">https://www.e-recht24.de</a></p>
 </div>
+
+
+<template id="templateCardRow">
+    <tr>
+        <td>
+            <input type="file" class="front"><br>
+            <div class="img-card-preview-container">
+                <img class="front-preview img-card-preview">
+            </div>
+        </td>
+        <td>
+            <input type="file" class="back" data-custom="0">
+            <button type="button" class="back-reset">default</button><br>
+            <div class="img-card-preview-container">
+                <img class="back-preview img-card-preview">
+            </div>
+        </td>
+        <td>
+            <input type="number" class="copies" value="1" onchange="document.getElementById('cardsTotal').innerText += parseInt(document.getElementById('cardsTotal').innerText)+this.value-1;">
+        </td>
+        <td>
+            <button type="button" class="delete-card" onclick="if(confirm('delete this card?')){this.closest('tr').remove();document.getElementById('cardsTotal').innerText--;}">delete</button>
+        </td>
+    </tr>
+</template>
 </body>
 </html>

@@ -1,5 +1,4 @@
 const { jsPDF } = window.jspdf;
-const reader = new FileReader();
 const configInch = {
     19: {   //12" x 18" Small Poster(s) on Deluxe Paper
         w: 12.25,
@@ -74,32 +73,70 @@ const blobToBase64 = blob => new Promise((resolve, reject) => {
     reader.onerror = error => reject(error);
 });
 
+
+function previewImage(source, target) {
+    if(source !== undefined) {
+        target.src = URL.createObjectURL(source);
+    }
+    else {
+        target.src = '';
+    }
+    // console.log(source);
+    // console.log(target);
+    // const reader = new FileReader();
+    // reader.readAsDataURL(source);
+    //
+    // reader.onLoad = () => {
+    //     target.src = reader.result;
+    // }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const fronts = document.getElementById('fronts');
     const back = document.getElementById('back');
     const tpl = document.getElementById('templateCardRow');
     const table = document.getElementById('cardsTable');
     // const progress = document.getElementById('progress');
+    const cardsTotal = document.getElementById('cardsTotal');
+    // let cards = 0;
     // const w = parseFloat(document.getElementById('width'));
     // const h = parseFloat(document.getElementById('height'));
     // const b = parseFloat(document.getElementById('bleeding'));
     // const c = document.getElementById('color');
 
-    function addCardRow(fileData) {
+    function addCardRow(file) {
         let t = tpl.content.cloneNode(true);
+
+        let dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        t.querySelector('.front').files = dataTransfer.files;
+        previewImage(dataTransfer.files[0], t.querySelector('.front-preview'));
+
+        t.querySelector('.back').files = back.files;
+        previewImage(back.files[0], t.querySelector('.back-preview'));
+
         table.appendChild(t);
+        cardsTotal.innerText++;
     }
 
 
+    const backPreview = document.getElementById('cardBack');
+    back.addEventListener('change', () => {
+        previewImage(back.files[0], backPreview);
+    });
+
     document.getElementById('addCardFronts').addEventListener('click', () => {
-        if(back.value == '') {
-            alert('You need to set a default card back first!');
-            return;
-        }
-        for(let x = 0; x < fronts.files.length; x++) {
-            addCardRow(fronts.files.item(x));
+        for(let x of fronts.files) {
+            addCardRow(x);
         }
         fronts.value = '';
+    });
+
+    document.getElementById('removeAllCards').addEventListener('click', () => {
+        if(confirm('do you really want to delete all cards?')) {
+            table.innerHTML = '';
+            cardsTotal.innerText = '0';
+        }
     });
 
 
@@ -132,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
             compress: document.getElementById('compress').checked,
             putOnlyUsedFonts: true
         });
-        console.log(doc.getFontList());
 
         doc.deletePage(1);
         let fronts = document.getElementById('fronts').files;
