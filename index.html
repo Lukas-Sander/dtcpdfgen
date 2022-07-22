@@ -4,6 +4,14 @@
     <meta charset="utf-8">
     <title>Drivethrucards MtG PDF Generator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        th, td {
+            padding: 4px;
+        }
+        tr:nth-child(2n+1) {
+            background-color: antiquewhite;
+        }
+    </style>
 </head>
 <body>
 <h1>Drivethrucards MtG PDF Generator</h1>
@@ -20,80 +28,134 @@
     </li>
 </ul>
 <form id="cardForm">
-    <label>
-        card type preset
-        <select name="card_type" id="card_type_select">
-            <option value="19">12" x 18" Small Poster(s) on Deluxe Paper</option>
-            <option value="30">Embossed Tarot Card(s)</option>
-            <option value="26">Embossed US Poker Card(s)</option>
-            <option value="33">Premium 11" x 8.5" Landscape GM Screen Insert(s)  (your images need to be rotated into portrait)</option>
-            <option value="4">Premium 6" x 6" Tile Card(s)</option>
-            <option value="7">Premium 8" x 10" Page(s)</option>
-            <option value="8">Premium 8.5" x 11" Page(s)</option>
-            <option value="32">Premium 8.5" x 11" Portrait GM Screen Insert(s)</option>
-            <option value="14" selected>Premium Euro Poker Card(s)</option>
-            <option value="18">Premium Mini-card(s)</option>
-            <option value="25">Premium Tarot Card(s)</option>
-            <option value="3">Premium US Poker Card(s)</option>
-        </select>
-        <button type="button" id="usePreset">use</button>
-    </label>
-    <br>
-    <label>
-        total width in inches
-        <input type="number" id="width" step="0.001" value="2.73">
-    </label>
-    <br>
-    <label>
-        total height in inches
-        <input type="number" id="height" step="0.001" value="3.71">
-    </label>
-    <br>
-    <label>
-        bleeding area in inches
-        <input type="number" id="bleeding" step="0.001" value="0.125">
-    </label>
-    <br>
-    <label>
-        background color (which is typically your bleeding area)
-        <input type="color" id="color" value="#000000">
-    </label>
-    <br>
-    <label>
-        card back
-        <input required type="file" id="back">
-    </label>
-    <br>
-    <label>
-        card fronts
-        <input required type="file" multiple id="fronts">
-    </label>
-    <br>
-    <label>
-        compress PDF?
-        <input type="checkbox" id="compress">
-    </label>
-    <br>
-    <label>
-        image compression level:
-        <select id="img_compress">
-            <option value="NONE">none</option>
-            <option value="FAST">fast</option>
-            <option value="MEDIUM">medium</option>
-            <option value="SLOW">slow</option>
-        </select>
-    </label>
-    <input type="submit" value="Generate">
+    <table style="text-align: left;">
+        <tbody>
+        <tr>
+            <th>
+                <label for="card_type_select">
+                    card type preset
+                </label>
+            </th>
+            <td>
+                <select id="card_type_select">
+                    <option value="19">12" x 18" Small Poster(s) on Deluxe Paper</option>
+                    <option value="30">Embossed Tarot Card(s)</option>
+                    <option value="26">Embossed US Poker Card(s)</option>
+                    <option value="33">Premium 11" x 8.5" Landscape GM Screen Insert(s)  (your images need to be rotated into portrait)</option>
+                    <option value="4">Premium 6" x 6" Tile Card(s)</option>
+                    <option value="7">Premium 8" x 10" Page(s)</option>
+                    <option value="8">Premium 8.5" x 11" Page(s)</option>
+                    <option value="32">Premium 8.5" x 11" Portrait GM Screen Insert(s)</option>
+                    <option value="14" selected>Premium Euro Poker Card(s)</option>
+                    <option value="18">Premium Mini-card(s)</option>
+                    <option value="25">Premium Tarot Card(s)</option>
+                    <option value="3">Premium US Poker Card(s)</option>
+                </select>
+                <button type="button" id="usePreset">use</button>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label for="width">
+                    total width in inches
+                </label>
+            </th>
+            <td>
+                <input type="number" id="width" step="0.001" value="2.73">
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label for="height">
+                    total height in inches
+                </label>
+            </th>
+            <td>
+                <input type="number" id="height" step="0.001" value="3.71">
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label for="bleeding">
+                    bleeding area in inches
+                </label>
+            </th>
+            <td>
+                <input type="number" id="bleeding" step="0.001" value="0.125">
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label for="color">
+                    background color (which is typically your bleeding area)
+                </label>
+            </th>
+            <td>
+                <input type="color" id="color" value="#000000">
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label for="back">
+                    card back
+                </label>
+            </th>
+            <td>
+                <input required type="file" id="back">
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label for="fronts">
+                    card fronts
+                </label>
+            </th>
+            <td>
+                <input required type="file" multiple id="fronts">
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label for="compress">
+                    compress PDF?
+                </label>
+            </th>
+            <td>
+                <input type="checkbox" id="compress">
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label for="img_compress">
+                    image compression level:
+                </label>
+            </th>
+            <td>
+                <select id="img_compress">
+                    <option value="NONE">none</option>
+                    <option value="FAST">fast</option>
+                    <option value="MEDIUM">medium</option>
+                    <option value="SLOW">slow</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Generate">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
 </form>
 <label>
     progress:
-    <progress id="progress" value="0"></progress>
+    <progress id="progress" value="0" style="width: 100%;"></progress>
 </label>
 <script src="jspdf.umd.min.js"></script>
 <script src="scripts.js"></script>
 <br><br>
-<button id="toggleImprint">toggle imprint (german)</button>
-
+<span style="cursor:pointer;" id="toggleImprint">toggle imprint (german)</span>
 <div id="imprint" style="display:none">
     <h1>Impressum</h1>
     <h2>Angaben gem&auml;&szlig; &sect; 5 TMG</h2>
@@ -109,10 +171,8 @@
     &#x62;&#x61;&#x6d;&#x62;&#x6f;&#x6f;&#x72;&#x69;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;</p>
     <p>Quelle: <a href="https://www.e-recht24.de">e-recht24.de</a></p>
 </div>
-
 <br>
-<button id="togglePP">toggle privacy policy (german)</button>
-
+<span style="cursor:pointer;" id="togglePP">toggle privacy policy (german)</span>
 <div id="PP" style="display:none">
     <h1>Datenschutz&shy;erkl&auml;rung</h1>
     <h2>1. Datenschutz auf einen Blick</h2>

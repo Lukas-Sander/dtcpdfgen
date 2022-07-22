@@ -84,6 +84,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('PP').style.display = d=='none' ? 'block' : 'none';
     });
 
+    let w = document.getElementById('width');
+    let h = document.getElementById('height');
+    let b = document.getElementById('bleeding');
+    let presets = document.getElementById('card_type_select');
+    document.getElementById('usePreset').addEventListener('click', () => {
+        w.value = configInch[presets.value].w;
+        h.value = configInch[presets.value].h;
+        b.value = configInch[presets.value].b;
+    });
 
     document.getElementById('cardForm').addEventListener('submit', async (e) => {
         e.stopPropagation();
@@ -100,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.deletePage(1);
         let fronts = document.getElementById('fronts').files;
         let back = document.getElementById('back').files[0];
-        let bg = document.getElementById('color').value;
         let progress = document.getElementById('progress');
         let w = parseFloat(document.getElementById('width').value);
         let h = parseFloat(document.getElementById('height').value);
