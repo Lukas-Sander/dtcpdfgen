@@ -8,8 +8,22 @@
         th, td {
             padding: 4px;
         }
+        th:not(:last-child), td:not(:last-child) {
+            border-right: 1px solid gray;
+        }
         tr:nth-child(2n+1) {
             background-color: antiquewhite;
+        }
+        table {
+            text-align: left;
+            border-spacing: 0;
+            border: 1px solid gray;
+            width: 100%;
+        }
+        body {
+            max-width: 1200px;
+            margin: auto;
+            font-family: sans-serif ;
         }
     </style>
 </head>
@@ -28,7 +42,7 @@
     </li>
 </ul>
 <form id="cardForm">
-    <table style="text-align: left;">
+    <table>
         <tbody>
         <tr>
             <th>
@@ -146,12 +160,52 @@
         </tr>
         </tbody>
     </table>
-
 </form>
 <label>
     progress:
     <progress id="progress" value="0" style="width: 100%;"></progress>
 </label>
+<table>
+    <thead>
+    <tr>
+        <th colspan="4">Cards</th>
+    </tr>
+    <tr>
+        <th>
+            front
+        </th>
+        <th>
+            back
+        </th>
+        <th colspan="2">
+            copies
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <template>
+        <tr>
+            <td>
+                <img class="font">
+            </td>
+            <td>
+                <img class="back">
+                <label>
+                    custom back:
+                    <input type="file" class="custom-back">
+                </label>
+                <button type="button" class="back-reset">default</button>
+            </td>
+            <td>
+                <input type="number" class="copies">
+            </td>
+            <td>
+                <button type="button" class="delete-card">delete</button>
+            </td>
+        </tr>
+    </template>
+    </tbody>
+</table>
 <script src="jspdf.umd.min.js"></script>
 <script src="scripts.js"></script>
 <br><br>
