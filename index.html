@@ -116,6 +116,7 @@
             </th>
             <td>
                 <input required type="file" id="back">
+                <button id="updateCardBacks" type="button">update card backs</button>
             </td>
         </tr>
         <tr>
@@ -126,6 +127,7 @@
             </th>
             <td>
                 <input required type="file" multiple id="fronts">
+                <button id="addCardFronts" type="button">add selected</button>
             </td>
         </tr>
         <tr>
@@ -161,14 +163,20 @@
         </tbody>
     </table>
 </form>
-<label>
-    progress:
-    <progress id="progress" value="0" style="width: 100%;"></progress>
-</label>
+<p style="display: flex;">
+    <strong style="margin-right: 0.5em;">PDF generation progress:</strong><progress style="flex-grow: 1;" id="progress" value="0" ></progress>
+</p>
+
+<button style="float: right;" id="removeAllCards">remove all cards</button>
 <table>
     <thead>
     <tr>
-        <th colspan="4">Cards</th>
+        <th colspan="4">
+            Cards
+            <span style="float: right;">
+                cards total: <span id="cardsTotal">0</span>
+            </span>
+        </th>
     </tr>
     <tr>
         <th>
@@ -182,25 +190,23 @@
         </th>
     </tr>
     </thead>
-    <tbody>
-    <template>
+    <tbody id="cardsTable">
+    <template id="templateCardRow">
         <tr>
             <td>
-                <img class="font">
+                <input type="file" class="front img-preview">
+                <img class="front-preview">
             </td>
             <td>
-                <img class="back">
-                <label>
-                    custom back:
-                    <input type="file" class="custom-back">
-                </label>
+                <input type="file" class="back img-preview" data-custom="0">
+                <img class="back-preview">
                 <button type="button" class="back-reset">default</button>
             </td>
             <td>
                 <input type="number" class="copies">
             </td>
             <td>
-                <button type="button" class="delete-card">delete</button>
+                <button type="button" class="delete-card" onclick="this.closest('tr').remove();">delete</button>
             </td>
         </tr>
     </template>
@@ -209,6 +215,13 @@
 <script src="jspdf.umd.min.js"></script>
 <script src="scripts.js"></script>
 <br><br>
+
+<h2>Roadmap</h2>
+<ul>
+    <li>
+        complete extended card management: <progress max="10" value="1"></progress>
+    </li>
+</ul>
 <span style="cursor:pointer;" id="toggleImprint">toggle imprint (german)</span>
 <div id="imprint" style="display:none">
     <h1>Impressum</h1>

@@ -75,6 +75,34 @@ const blobToBase64 = blob => new Promise((resolve, reject) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    const fronts = document.getElementById('fronts');
+    const back = document.getElementById('back');
+    const tpl = document.getElementById('templateCardRow');
+    const table = document.getElementById('cardsTable');
+    // const progress = document.getElementById('progress');
+    // const w = parseFloat(document.getElementById('width'));
+    // const h = parseFloat(document.getElementById('height'));
+    // const b = parseFloat(document.getElementById('bleeding'));
+    // const c = document.getElementById('color');
+
+    function addCardRow(fileData) {
+        let t = tpl.content.cloneNode(true);
+        table.appendChild(t);
+    }
+
+
+    document.getElementById('addCardFronts').addEventListener('click', () => {
+        if(back.value == '') {
+            alert('You need to set a default card back first!');
+            return;
+        }
+        for(let x = 0; x < fronts.files.length; x++) {
+            addCardRow(fronts.files.item(x));
+        }
+        fronts.value = '';
+    });
+
+
     document.getElementById('toggleImprint').addEventListener('click', () => {
         let d = document.getElementById('imprint').style.display;
         document.getElementById('imprint').style.display = d=='none' ? 'block' : 'none';
