@@ -75,20 +75,12 @@ const blobToBase64 = blob => new Promise((resolve, reject) => {
 
 
 function previewImage(source, target) {
-    if(source !== undefined) {
+    if(source != undefined) {
         target.src = URL.createObjectURL(source);
     }
     else {
-        target.src = '';
+        target.removeAttribute('src');
     }
-    // console.log(source);
-    // console.log(target);
-    // const reader = new FileReader();
-    // reader.readAsDataURL(source);
-    //
-    // reader.onLoad = () => {
-    //     target.src = reader.result;
-    // }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
