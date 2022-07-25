@@ -131,6 +131,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    document.getElementById('updateCardBacks').addEventListener('click', () => {
+        document.querySelectorAll('#cardsTable .td-card-back').forEach((e) => {
+            let img = e.querySelector('.back-preview');
+            let file = e.querySelector('.back');
+            if(file.dataset.custom === '0') {
+                file.files = back.files;
+                previewImage(file.files[0], img);
+            }
+        });
+    });
 
     document.getElementById('toggleImprint').addEventListener('click', () => {
         let d = document.getElementById('imprint').style.display;
