@@ -98,14 +98,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addCardRow(file) {
         let t = tpl.content.cloneNode(true);
+        let frontInput = t.querySelector('.front');
+        let backInput = t.querySelector('.back');
+        let frontPreview = t.querySelector('.front-preview');
+        let backPreview = t.querySelector('.back-preview');
 
         let dataTransfer = new DataTransfer();
         dataTransfer.items.add(file);
-        t.querySelector('.front').files = dataTransfer.files;
-        previewImage(dataTransfer.files[0], t.querySelector('.front-preview'));
+        frontInput.files = dataTransfer.files;
+        previewImage(dataTransfer.files[0], frontPreview);
 
-        t.querySelector('.back').files = back.files;
-        previewImage(back.files[0], t.querySelector('.back-preview'));
+        backInput.files = back.files;
+        previewImage(back.files[0], backPreview);
+
+
+        frontInput.addEventListener('change', (e) => {
+            previewImage(e.target.files[0], frontPreview);
+        });
+
+        backInput.addEventListener('change', (e) => {
+            previewImage(e.target.files[0], backPreview);
+            e.target.dataset.custom = '1';
+        });
+
+        t.querySelector('.back-reset').addEventListener('click', () => {
+            backInput.dataset.custom = '0';
+            backInput.files = back.files;
+            previewImage(back.files[0], backPreview);
+        });
 
         table.appendChild(t);
         cardsTotal.innerText++;
