@@ -96,6 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // const b = parseFloat(document.getElementById('bleeding'));
     // const c = document.getElementById('color');
 
+    function updateCardNumber() {
+        let number = 0;
+        document.querySelectorAll('#cardsTable .copies').forEach((e) => {
+            number += parseInt(e.value);
+        });
+
+        cardsTotal.innerText = number;
+    }
+
     function addCardRow(file) {
         let t = tpl.content.cloneNode(true);
         let frontInput = t.querySelector('.front');
@@ -125,6 +134,17 @@ document.addEventListener('DOMContentLoaded', () => {
             backInput.dataset.custom = '0';
             backInput.files = back.files;
             previewImage(back.files[0], backPreview);
+        });
+
+        t.querySelector('.copies').addEventListener('input', (e) => {
+            updateCardNumber();
+        });
+
+        t.querySelector('.delete-card').addEventListener('click', (e) => {
+            if(confirm('delete this card?')){
+                cardsTotal.innerText = parseInt(cardsTotal.innerText) - parseInt(e.target.closest('tr').querySelector('.copies').value);
+                e.target.closest('tr').remove();
+            }
         });
 
         table.appendChild(t);
@@ -193,7 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         doc.deletePage(1);
-        let fronts = document.getElementById('fronts').files;
+        // let fronts = document.getElementById('fronts').files;
+        let fronts = document.querySelectorAll('#cardsTable tr');
         let back = document.getElementById('back').files[0];
         let progress = document.getElementById('progress');
         let w = parseFloat(document.getElementById('width').value);
@@ -208,17 +229,35 @@ document.addEventListener('DOMContentLoaded', () => {
         back = await convertBlobToBase64(back);
 
         for(let x = 0; x < fronts.length; x++) {
-            doc.addPage([w, h], 'p');
-            doc.setFillColor(c);
-            doc.rect(0, 0, w, h, 'F');
-            doc.addImage(back, 'JPEG', b, b, w-b*2, h-b*2, '', imgCompression, 0);
+            let frontImg = fronts[x].querySelector('.front').files[0];
+            let backImg = fronts[x].querySelector('.back').files[0];
+            let bck = fronts[x].querySelector('.back');
+            let backName = x + 'b';
 
-            doc.addPage([w, h], 'p');
-            doc.setFillColor(c);
-            doc.rect(0, 0, w, h, 'F');
-            let f = await convertBlobToBase64(fronts.item(x));
-            doc.addImage(f, 'JPEG', b, b, w-b*2, h-b*2, x, imgCompression, 0);
-            progress.value++;
+            if(bck.dataset.custom === '0') {
+                backImg = back;
+                backName = 'bd'
+            }
+            else {
+                backImg = await convertBlobToBase64(backImg);
+            }
+
+            let cp = fronts[x].querySelector('.copies').value;
+
+            for(let i = 1; i <= cp; i++) {
+                doc.addPage([w, h], 'p');
+                doc.setFillColor(c);
+                doc.rect(0, 0, w, h, 'F');
+                doc.addImage(backImg, 'JPEG', b, b, w-b*2, h-b*2, backName, imgCompression, 0);
+
+                doc.addPage([w, h], 'p');
+                doc.setFillColor(c);
+                doc.rect(0, 0, w, h, 'F');
+                let f = await convertBlobToBase64(frontImg);
+                doc.addImage(f, 'JPEG', b, b, w-b*2, h-b*2, x, imgCompression, 0);
+                progress.value++;
+            }
+
         }
 
         doc.save('generated.pdf');

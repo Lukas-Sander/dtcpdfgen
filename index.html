@@ -94,7 +94,7 @@
                 </label>
             </th>
             <td>
-                <input required type="file" id="back">
+                <input type="file" id="back">
                 <button id="updateCardBacks" type="button">update card backs</button><br>
                 <div class="img-card-preview-container">
                     <img id="cardBack" class="img-card-preview">
@@ -108,7 +108,7 @@
                 </label>
             </th>
             <td>
-                <input required type="file" multiple id="fronts">
+                <input type="file" multiple id="fronts">
                 <button id="addCardFronts" type="button">add selected</button>
             </td>
         </tr>
@@ -179,12 +179,6 @@
 <script src="scripts.js"></script>
 <br><br>
 
-<h2>Roadmap</h2>
-<ul>
-    <li>
-        complete extended card management: <progress max="10" value="5"></progress>
-    </li>
-</ul>
 <span style="cursor:pointer;" id="toggleImprint">toggle imprint (german)</span>
 <div id="imprint" style="display:none">
     <h1>Impressum</h1>
@@ -389,7 +383,7 @@
             <input type="number" class="copies" value="1">
         </td>
         <td>
-            <button type="button" class="delete-card" onclick="if(confirm('delete this card?')){this.closest('tr').remove();document.getElementById('cardsTotal').innerText--;}">delete</button>
+            <button type="button" class="delete-card">delete</button>
         </td>
     </tr>
 </template>
